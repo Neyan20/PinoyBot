@@ -1,0 +1,22 @@
+word_id,sentence_id,sentence,word,tags
+420,24,"Ayon sa 2018 Programme for International Student Assessment ( PISA ) , 94 % ng mga estudyanteng nakilahok dito na nasa edad na 15 ay gumagamit sa bahay ng lengguwaheng iba sa ginamit na medium of instruction sa mismong assessment .",mismong,FIL
+421,24,"Ayon sa 2018 Programme for International Student Assessment ( PISA ) , 94 % ng mga estudyanteng nakilahok dito na nasa edad na 15 ay gumagamit sa bahay ng lengguwaheng iba sa ginamit na medium of instruction sa mismong assessment .",assessment,ENG
+422,24,"Ayon sa 2018 Programme for International Student Assessment ( PISA ) , 94 % ng mga estudyanteng nakilahok dito na nasa edad na 15 ay gumagamit sa bahay ng lengguwaheng iba sa ginamit na medium of instruction sa mismong assessment .",.,OTH
+423,25,Natanggal na sama ng loob ko ng dahil sa basketball,Natanggal,ENG
+424,25,Natanggal na sama ng loob ko ng dahil sa basketball,na,FIL
+425,25,Natanggal na sama ng loob ko ng dahil sa basketball,sama,FIL
+426,25,Natanggal na sama ng loob ko ng dahil sa basketball,ng,FIL
+427,25,Natanggal na sama ng loob ko ng dahil sa basketball,loob,FIL
+428,25,Natanggal na sama ng loob ko ng dahil sa basketball,ko,FIL
+429,25,Natanggal na sama ng loob ko ng dahil sa basketball,ng,FIL
+430,25,Natanggal na sama ng loob ko ng dahil sa basketball,dahil,FIL
+431,25,Natanggal na sama ng loob ko ng dahil sa basketball,sa,FIL
+432,25,Natanggal na sama ng loob ko ng dahil sa basketball,basketball,ENG
+433,26,mukhang sa literature pa ako babagsak ah,mukhang,FIL
+434,26,mukhang sa literature pa ako babagsak ah,sa,FIL
+435,26,mukhang sa literature pa ako babagsak ah,literature,ENG
+436,26,mukhang sa literature pa ako babagsak ah,pa,FIL
+437,26,mukhang sa literature pa ako babagsak ah,ako,ENG
+438,26,mukhang sa literature pa ako babagsak ah,babagsak,ENG
+439,26,mukhang sa literature pa ako babagsak ah,ah,OTH
+440,27,Malakas ang kanyang ugnay sa mga sambayanang Pilipino at mga kababayang naninirahan sa ibang bansa .,Malakas,FIL

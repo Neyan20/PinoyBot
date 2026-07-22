@@ -12,6 +12,62 @@ import os
 import pickle
 from typing import List
 
+def is_all_caps(word):
+    if (word.upper() == word):
+        return 1
+    return 0
+
+def is_capitalized_midway(word):
+    if(word[0].upper() == word[0]):
+        return 1
+    return 0
+    
+
+
+def find_vowel_ratio(word):
+    vowels = ['a', 'e', 'i','o' ,'u']
+    vowel_count = 0
+    
+    for a in word:
+        if a in vowels:
+            vowel_count += 1
+    
+    return (vowel_count/len(word))
+
+def has_double_vowels(word):
+    vowels = ['a', 'e', 'i','o' ,'u']
+    cur_vowel = ' '
+
+    for b in range(len(word) - 1):
+        if word[b] in vowels:
+            cur_vowel = word[b]
+            if word[b+1] == cur_vowel:
+                return 1
+    
+    return 0
+
+def features_list(word, index):
+    all_caps = 0
+    capitalized = 0 # if capitalized + index > 0
+
+    singular_letter = 0
+    is_symbol = 0
+    has_symbol = 0
+
+    vowel_ratio = find_vowel_ratio(word)
+    double_vowels = 0
+    double_consonants = 0
+
+    repeated_syllables = 0 # ie. dadaan, baba, lalakad
+    ngg = 0 # remove, is in specific_fil_sounds
+    unlapi = 0
+    gitlapi = 0 # um[vowel]
+    hulapi = 0
+    specific_fil_sounds = 0 # ie. (ts, ngg, diy[vowel])
+    specific_eng_sounds = 0 # ie. (ch, qu, ie)
+
+    return [word, vowel_ratio, double_vowels]
+
 # Main tagging function
 def tag_language(tokens: List[str]) -> List[str]:
     """
@@ -48,3 +104,5 @@ if __name__ == "__main__":
     example_tokens = ["Love", "kita", "."]
     print("Tokens:", example_tokens)
     tags = tag_language(example_tokens)
+    print("Tags:", tags)
+
