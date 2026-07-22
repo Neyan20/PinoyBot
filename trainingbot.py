@@ -1,7 +1,8 @@
 import csv
+import joblib
 
 from sklearn.model_selection import train_test_split
-# from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import GaussianNB
 # from sklearn.naive_bayes import MultinomialNB
 
 def is_all_caps(word):
@@ -63,30 +64,77 @@ def has_double_vowels(word):
     
     return 0
 
+def has_double_consonants(word):
+    consonants = ['b', 'c', 'd', 'f', 'g', 'h',
+               'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r',
+               's', 't', 'v', 'w', 'x', 'y', 'z']
+
+    cur_cons = ' '
+
+    for e in range(len(word) - 1):
+        if word[e] in consonants:
+            cur_cons = word[e]
+            if word[e+1] == cur_cons:
+                return 1
+    return 0
+
+def has_repeated_2_letter_syllables(word):
+    pair = ' '
+    for f in range(len(word) - 3):
+        pair_1 = (word[f] + word[f + 1]).lower()
+
+        if pair_1 == (word[f+2] + word[f+3]):
+            return 1
+    return 0
+
+def has_repeated_3_letter_syllables(word):
+    trio = ' '
+    for g in range(len(word) - 5):
+        pair_1 = (word[g] + word[g+1] + word[g+2]).lower()
+
+        if pair_1 == (word[g+3] + word[g+4] + word[g+5]):
+            return 1
+    return 0
+
+def has_unlapi(word):
+    return 0
+
+def has_gitlapi(word):
+    return 0
+
+def has_hulapi(word):
+    return 0
+
 def features_list(word, index):
-    all_caps = 0
-    capitalized = 0 # if capitalized + index > 0
+    all_caps = is_all_caps(word)
+    #capitalized = 0 # if capitalized + index > 0
 
-    singular_letter = 0
-    is_number = 0
-    has_number = 0
-    is_symbol = 0
-    has_symbol = 0
+    if len(word) == 1:
+        singular_letter = is_singular_letter(word)
+        number = is_number(word)
+    else:
+        singular_letter = 0
+        number = 0
+    # is_symbol = 0
 
-    vowel_ratio = 0
-    double_vowels = 0
-    double_consonants = 0
+    # has_number = has_number(word)
+    # has_symbol = 0
 
-    repeated_2_letter_syllables = 0 # ie. dadaan, baba, lalakad
-    repeared_3_letter_syllables = 0 # ie. basbasan, pagpagin
-    ngg = 0 # remove, is in specific_fil_sounds
-    unlapi = 0 # ie. ma
-    gitlapi = 0 # um[vowel]
-    hulapi = 0 # ie. an, in
-    specific_fil_sounds = 0 # ie. (ts, ngg, diy[vowel])
-    specific_eng_sounds = 0 # ie. (ch, qu, ie)
+    vowel_ratio = find_vowel_ratio(word)
+    double_vowels = has_double_vowels(word)
+    double_consonants = has_double_consonants(word)
 
-    return [word, vowel_ratio, double_vowels]
+    repeated_2_letter_syllables = has_repeated_2_letter_syllables(word) # ie. dadaan, baba, lalakad
+    repeared_3_letter_syllables = has_repeated_3_letter_syllables(word) # ie. basbasan, pagpagin
+    # unlapi = 0 # ie. ma
+    # gitlapi = 0 # [consonant]um[vowel]
+    # hulapi = 0 # ie. an, in
+    # specific_fil_sounds = 0 # ie. (ts, kw, diy[vowel], ngg)
+    # specific_eng_sounds = 0 # ie. (ch, qu, ie)
+
+    return [all_caps, singular_letter, number,
+            vowel_ratio, double_vowels, double_consonants,
+            repeated_2_letter_syllables, repeared_3_letter_syllables]
 
 # read file
 sentence = []
@@ -102,15 +150,30 @@ with open("dataset.csv", "r") as f:
         words.append(row[3])
         tags.append(row[4])
 
-# convert the words into a sample matrix
+# feature matrix
 feature_matrix = []
 
-for word_no in range(len(words)):
-    feature_matrix.append(features_list(words[word_no], word_no))
+for w, word in enumerate(words):
+    feature_matrix.append(features_list(word, w))
 
-print(feature_matrix)
+#for fm in feature_matrix:
+#    print(fm)
 
 # 70 15 15
-# train_test_split(feature_matrix, tags)
+# X_train - selected feature rows, y_train - corresponding tags, X/y_vt - unselected
+# X/y_valid - validation, X/y_test - test
+X_train, X_vt, y_train, y_vt = train_test_split(feature_matrix, tags, test_size = 0.3)
+X_valid, X_test, y_valid, y_test = train_test_split(X_vt, y_vt, test_size = 0.5)
 
-# gnb - train model
+# gnb - train model - multinombialNB
+model = GaussianNB()
+# y_pred
+# y_pred = model.fit(X_train, y_train).predict(X_valid)
+model.fit(X_train, y_train) # train the model
+y_pred = model.predict(X_valid) # test model
+
+print(y_pred) # predicted
+print(y_valid) # actual
+
+# export model
+joblib.dump(model, "trainedbot")

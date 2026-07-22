@@ -9,7 +9,8 @@ Model training and feature extraction should be implemented in a separate script
 """
 
 import os
-import pickle
+# import pickle
+import joblib
 from typing import List
 
 def is_all_caps(word):
@@ -71,30 +72,77 @@ def has_double_vowels(word):
     
     return 0
 
+def has_double_consonants(word):
+    consonants = ['b', 'c', 'd', 'f', 'g', 'h',
+               'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r',
+               's', 't', 'v', 'w', 'x', 'y', 'z']
+
+    cur_cons = ' '
+
+    for e in range(len(word) - 1):
+        if word[e] in consonants:
+            cur_cons = word[e]
+            if word[e+1] == cur_cons:
+                return 1
+    return 0
+
+def has_repeated_2_letter_syllables(word):
+    pair = ' '
+    for f in range(len(word) - 3):
+        pair_1 = (word[f] + word[f + 1]).lower()
+
+        if pair_1 == (word[f+2] + word[f+3]):
+            return 1
+    return 0
+
+def has_repeated_3_letter_syllables(word):
+    trio = ' '
+    for g in range(len(word) - 5):
+        pair_1 = (word[g] + word[g+1] + word[g+2]).lower()
+
+        if pair_1 == (word[g+3] + word[g+4] + word[g+5]):
+            return 1
+    return 0
+
+def has_unlapi(word):
+    return 0
+
+def has_gitlapi(word):
+    return 0
+
+def has_hulapi(word):
+    return 0
+
 def features_list(word, index):
-    all_caps = 0
-    capitalized = 0 # if capitalized + index > 0
+    all_caps = is_all_caps(word)
+    #capitalized = 0 # if capitalized + index > 0
 
-    singular_letter = 0
-    is_number = 0
-    has_number = 0
-    is_symbol = 0
-    has_symbol = 0
+    if len(word) == 1:
+        singular_letter = is_singular_letter(word)
+        number = is_number(word)
+    else:
+        singular_letter = 0
+        number = 0
+    # is_symbol = 0
 
-    vowel_ratio = 0
-    double_vowels = 0
-    double_consonants = 0
+    # has_number = has_number(word)
+    # has_symbol = 0
 
-    repeated_2_letter_syllables = 0 # ie. dadaan, baba, lalakad
-    repeared_3_letter_syllables = 0 # ie. basbasan, pagpagin
-    ngg = 0 # remove, is in specific_fil_sounds
-    unlapi = 0 # ie. ma
-    gitlapi = 0 # um[vowel]
-    hulapi = 0 # ie. an, in
-    specific_fil_sounds = 0 # ie. (ts, ngg, diy[vowel])
-    specific_eng_sounds = 0 # ie. (ch, qu, ie)
+    vowel_ratio = find_vowel_ratio(word)
+    double_vowels = has_double_vowels(word)
+    double_consonants = has_double_consonants(word)
 
-    return [word, vowel_ratio, double_vowels]
+    repeated_2_letter_syllables = has_repeated_2_letter_syllables(word) # ie. dadaan, baba, lalakad
+    repeared_3_letter_syllables = has_repeated_3_letter_syllables(word) # ie. basbasan, pagpagin
+    # unlapi = 0 # ie. ma
+    # gitlapi = 0 # [consonant]um[vowel]
+    # hulapi = 0 # ie. an, in
+    # specific_fil_sounds = 0 # ie. (ts, kw, diy[vowel], ngg)
+    # specific_eng_sounds = 0 # ie. (ch, qu, ie)
+
+    return [all_caps, singular_letter, number,
+            vowel_ratio, double_vowels, double_consonants,
+            repeated_2_letter_syllables, repeared_3_letter_syllables]
 
 # Main tagging function
 def tag_language(tokens: List[str]) -> List[str]:
@@ -125,12 +173,34 @@ def tag_language(tokens: List[str]) -> List[str]:
     # the tag_language function is retained and correctly accomplishes the expected task.
 
     # Currently, the bot just tags every token as FIL. Replace this with your more intelligent predictions.
-    return ['FIL' for i in tokens]
+
+
+
+
+
+    # 1.
+    trained_model = joblib.load("trainedbot")
+
+    # 2.
+    feature_matrix = []
+    for w, word in enumerate(tokens):
+        feature_matrix.append(features_list(word, w))
+
+    # 3.
+    # similar to trainingbot.py, y_pred = model...
+    y_pred = trained_model.predict(feature_matrix)
+    return y_pred
+
+    # 4.
+
+    # 5.
+    
+
+    #return ['FIL' for i in tokens]
 
 if __name__ == "__main__":
     # Example usage
-    example_tokens = ["Love", "kita", "."]
+    example_tokens = ["Kung", "ang", "world", "ay", "mundo", ",", "bakit", "anlapad", "ng", "nood", "mo", "!"]
     print("Tokens:", example_tokens)
     tags = tag_language(example_tokens)
     print("Tags:", tags)
-
