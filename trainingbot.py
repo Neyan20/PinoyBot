@@ -157,9 +157,6 @@ def count_fil_sounds(word, vowel):
     three_fil_sounds = ["diy", "ngg"]
     fil_counter = 0
 
-
-
-
 def features_list(word, index):
     vowels = ['a', 'e', 'i','o' ,'u']
     consonants = ['b', 'c', 'd', 'f', 'g', 'h',
@@ -175,7 +172,7 @@ def features_list(word, index):
 
     #update, number = 0 if the word is multi-digit (eg "100") which is incorrect
     if len(word) == 1:
-        singular_letter = is_singular_letter(word, letters)
+        singular_letter = is_singular_letter(word.lower(), letters)
         number = is_number(word, numbers)
     else:
         singular_letter = 0
@@ -185,15 +182,15 @@ def features_list(word, index):
     # has_number = has_number(word)
     # has_symbol = 0
 
-    vowel_ratio = find_vowel_ratio(word, vowels)
+    vowel_ratio = find_vowel_ratio(word.lower(), vowels)
     # add double_a, double_e, double_i, double_o
-    double_vowels = count_double_vowels(word, vowels)
-    double_consonants = count_double_consonants(word, consonants)
-    two_consonants = count_two_consonants(word, consonants)
-    three_consonants = count_three_consonants(word, consonants) #tch, thr, thy
+    double_vowels = count_double_vowels(word.lower(), vowels)
+    double_consonants = count_double_consonants(word.lower(), consonants)
+    two_consonants = count_two_consonants(word.lower(), consonants)
+    three_consonants = count_three_consonants(word.lower(), consonants) #tch, thr, thy
 
-    repeated_2_letter_syllables = has_repeated_2_letter_syllables(word) # ie. dadaan, baba, lalakad
-    repeared_3_letter_syllables = has_repeated_3_letter_syllables(word) # ie. basbasan, pagpagin
+    repeated_2_letter_syllables = has_repeated_2_letter_syllables(word.lower()) # ie. dadaan, baba, lalakad
+    repeared_3_letter_syllables = has_repeated_3_letter_syllables(word.lower()) # ie. basbasan, pagpagin
     # unlapi = 0 # ma, na
     # gitlapi = 0 # [c]um[v], [c]in[v]
     # hulapi = 0 # an, in
