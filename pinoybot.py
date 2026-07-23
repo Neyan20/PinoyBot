@@ -23,86 +23,93 @@ def is_capitalized_midway(word):
         return 1
     return 0
     
-def is_singular_letter(word):
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-               'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-               's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+def is_singular_letter(word, letters):
 
     for l in letters:
         if l == word.lower():
             return 1
     return 0
 
-def is_number(word):
-    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-
+def is_number(word, numbers):
     for a in word:
         if a not in numbers:
             return 0
     return 1
 
-def has_number(word):
-    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-
-    for b in word:
-        if b in numbers:
+def has_number(word, numbers):
+    for a2 in word:
+        if a2 in numbers:
             return 1
     return 0
 
-
-def find_vowel_ratio(word):
-    vowels = ['a', 'e', 'i','o' ,'u']
+def find_vowel_ratio(word, vowels):
     vowel_count = 0
     
-    for c in word:
-        if c in vowels:
+    for a3 in word:
+        if a3 in vowels:
             vowel_count += 1
     
     return (vowel_count/len(word))
 
-def count_double_vowels(word):
-    vowels = ['a', 'e', 'i','o' ,'u']
+def count_double_vowels(word, vowels):
     cur_vowel = ' '
     dw_count = 0
 
-    for d in range(len(word) - 1):
-        if word[d] in vowels:
-            cur_vowel = word[d]
-            if word[d+1] == cur_vowel:
+    for a4 in range(len(word) - 1):
+        if word[a4] in vowels:
+            cur_vowel = word[a4]
+            if word[a4+1] == cur_vowel:
                 dw_count += 1
     
     return dw_count
 
-def count_double_consonants(word):
-    consonants = ['b', 'c', 'd', 'f', 'g', 'h',
-               'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r',
-               's', 't', 'v', 'w', 'x', 'y', 'z']
-
+def count_double_consonants(word, consonants):
     cur_cons = ' '
     dc_count = 0
 
-    for e in range(len(word) - 1):
-        if word[e] in consonants:
-            cur_cons = word[e]
-            if word[e+1] == cur_cons:
+    for a5 in range(len(word) - 1):
+        if word[a5] in consonants:
+            cur_cons = word[a5]
+            if word[a5+1] == cur_cons:
                 dc_count += 1
     return dc_count
 
-def has_repeated_2_letter_syllables(word):
-    pair = ' '
-    for f in range(len(word) - 3):
-        pair_1 = (word[f] + word[f + 1]).lower()
+    # two_consonants = 0
+    # three_consonants = 0 #tch, thr, thy
 
-        if pair_1 == (word[f+2] + word[f+3]):
+def count_two_consonants(word, consonants):
+    c2_count = 0
+
+    for a8 in range(len(word) - 1):
+        if (word[a8] in consonants) and (word[a8 + 1] in consonants):
+            c2_count += 1
+
+    return c2_count
+
+def count_three_consonants(word, consonants):
+    c3_count = 0
+
+    for a9 in range(len(word) - 2):
+        if (word[a9] in consonants) and (word[a9 + 1] in consonants) and (word[a9 + 2] in consonants):
+            c3_count += 1
+
+    return c3_count
+
+def has_repeated_2_letter_syllables(word):
+    pair2 = ' '
+    for a6 in range(len(word) - 3):
+        pair_2 = (word[a6] + word[a6 + 1]).lower()
+
+        if pair_2 == (word[a6+2] + word[a6+3]):
             return 1
     return 0
 
 def has_repeated_3_letter_syllables(word):
     trio = ' '
-    for g in range(len(word) - 5):
-        pair_1 = (word[g] + word[g+1] + word[g+2]).lower()
+    for a7 in range(len(word) - 5):
+        pair_1 = (word[a7] + word[a7+1] + word[a7+2]).lower()
 
-        if pair_1 == (word[g+3] + word[g+4] + word[g+5]):
+        if pair_1 == (word[a7+3] + word[a7+4] + word[a7+5]):
             return 1
     return 0
 
@@ -116,12 +123,21 @@ def has_hulapi(word):
     return 0
 
 def features_list(word, index):
+    vowels = ['a', 'e', 'i','o' ,'u']
+    consonants = ['b', 'c', 'd', 'f', 'g', 'h',
+                  'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r',
+                  's', 't', 'v', 'w', 'x', 'y', 'z']
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+               'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+               's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+
     all_caps = is_all_caps(word)
     #capitalized = 0 # if capitalized + index > 0
 
     if len(word) == 1:
-        singular_letter = is_singular_letter(word)
-        number = is_number(word)
+        singular_letter = is_singular_letter(word, letters)
+        number = is_number(word, numbers)
     else:
         singular_letter = 0
         number = 0
@@ -130,11 +146,11 @@ def features_list(word, index):
     # has_number = has_number(word)
     # has_symbol = 0
 
-    vowel_ratio = find_vowel_ratio(word)
-    double_vowels = count_double_vowels(word)
-    double_consonants = count_double_consonants(word)
-    # two_consonants = 0
-    # three_consonants = 0 #tch, thr, thy
+    vowel_ratio = find_vowel_ratio(word, vowels)
+    double_vowels = count_double_vowels(word, vowels)
+    double_consonants = count_double_consonants(word, consonants)
+    two_consonants = count_two_consonants(word, consonants)
+    three_consonants = count_three_consonants(word, consonants) #tch, thr, thy
 
     repeated_2_letter_syllables = has_repeated_2_letter_syllables(word) # ie. dadaan, baba, lalakad
     repeared_3_letter_syllables = has_repeated_3_letter_syllables(word) # ie. basbasan, pagpagin
@@ -147,7 +163,7 @@ def features_list(word, index):
     # specific_eng_sounds = 0 # ie. (ch, qu, ie, ph)
 
     return [all_caps, singular_letter, number,
-            vowel_ratio, double_vowels, double_consonants,
+            vowel_ratio, double_vowels, double_consonants, two_consonants, three_consonants,
             repeated_2_letter_syllables, repeared_3_letter_syllables]
 
 # Main tagging function
@@ -195,13 +211,9 @@ def tag_language(tokens: List[str]) -> List[str]:
     # 3.
     # similar to trainingbot.py, y_pred = model...
     y_pred = trained_model.predict(feature_matrix)
+
+    # 4/5.
     return y_pred
-
-    # 4.
-
-    # 5.
-    
-
     #return ['FIL' for i in tokens]
 
 if __name__ == "__main__":
