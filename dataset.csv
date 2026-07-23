@@ -170,7 +170,7 @@ word_id,sentence_id,sentence,word,tags
 169,9,Ako na lng epadala sa akin welleng ako mag alaga ka mga anak mo maarod kaw cge Basta padal an mo at may kasuduan Tayo para sa mga anak mo,cge,FIL
 170,9,Ako na lng epadala sa akin welleng ako mag alaga ka mga anak mo maarod kaw cge Basta padal an mo at may kasuduan Tayo para sa mga anak mo,Basta,FIL
 171,9,Ako na lng epadala sa akin welleng ako mag alaga ka mga anak mo maarod kaw cge Basta padal an mo at may kasuduan Tayo para sa mga anak mo,padal,FIL
-172,9,Ako na lng epadala sa akin welleng ako mag alaga ka mga anak mo maarod kaw cge Basta padal an mo at may kasuduan Tayo para sa mga anak mo,an,
+172,9,Ako na lng epadala sa akin welleng ako mag alaga ka mga anak mo maarod kaw cge Basta padal an mo at may kasuduan Tayo para sa mga anak mo,an,FIL
 173,9,Ako na lng epadala sa akin welleng ako mag alaga ka mga anak mo maarod kaw cge Basta padal an mo at may kasuduan Tayo para sa mga anak mo,mo,FIL
 174,9,Ako na lng epadala sa akin welleng ako mag alaga ka mga anak mo maarod kaw cge Basta padal an mo at may kasuduan Tayo para sa mga anak mo,at,FIL
 175,9,Ako na lng epadala sa akin welleng ako mag alaga ka mga anak mo maarod kaw cge Basta padal an mo at may kasuduan Tayo para sa mga anak mo,may,FIL
@@ -293,9 +293,9 @@ word_id,sentence_id,sentence,word,tags
 292,17,Alamin ang 4S LABAN SA DENGUE upang maiwasan ang sakit na ito sa ating komunidad .,Alamin,FIL
 293,17,Alamin ang 4S LABAN SA DENGUE upang maiwasan ang sakit na ito sa ating komunidad .,ang,FIL
 294,17,Alamin ang 4S LABAN SA DENGUE upang maiwasan ang sakit na ito sa ating komunidad .,4S,OTH
-295,17,Alamin ang 4S LABAN SA DENGUE upang maiwasan ang sakit na ito sa ating komunidad .,LABAN,
-296,17,Alamin ang 4S LABAN SA DENGUE upang maiwasan ang sakit na ito sa ating komunidad .,SA,
-297,17,Alamin ang 4S LABAN SA DENGUE upang maiwasan ang sakit na ito sa ating komunidad .,DENGUE,
+295,17,Alamin ang 4S LABAN SA DENGUE upang maiwasan ang sakit na ito sa ating komunidad .,LABAN,OTH
+296,17,Alamin ang 4S LABAN SA DENGUE upang maiwasan ang sakit na ito sa ating komunidad .,SA,OTH
+297,17,Alamin ang 4S LABAN SA DENGUE upang maiwasan ang sakit na ito sa ating komunidad .,DENGUE,OTH
 298,17,Alamin ang 4S LABAN SA DENGUE upang maiwasan ang sakit na ito sa ating komunidad .,upang,FIL
 299,17,Alamin ang 4S LABAN SA DENGUE upang maiwasan ang sakit na ito sa ating komunidad .,maiwasan,FIL
 300,17,Alamin ang 4S LABAN SA DENGUE upang maiwasan ang sakit na ito sa ating komunidad .,ang, FIL
