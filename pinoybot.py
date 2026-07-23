@@ -171,9 +171,10 @@ def may_hulapi(word):
 
     # specific_fil_sounds = 0 # ie. (ts, kw, diy[vowel], ngg)
 def count_fil_sounds(word):
-    two_fil_sounds = ["ts", "kw",
+    two_fil_sounds = ["ts", "kw", "ks",
                       "iw", "uy", "ey", "oy", "ay", "aw"]
-    three_fil_sounds = ["diy", "ngg"]
+    three_fil_sounds = ["diy", "ngg",
+                        "ala", "san", "isa", "ito", "ama", "ila", "pag", "ara", "ata", "kan", "ali"]
     two_fil_counter = 0
     thr_fil_counter = 0
 
@@ -188,6 +189,26 @@ def count_fil_sounds(word):
                 thr_fil_counter += 1
 
     return two_fil_counter, thr_fil_counter
+
+def count_eng_letters(word):
+    eng_letters = ['c', 'f', 'j', 'q', 'v', 'x', 'z']
+    count = 0
+
+    for a in word:
+        if a in eng_letters:
+            count += 1
+    return count
+
+def count_eng_sounds(word):
+    count = 0
+    eng_sounds = ["ch", "qu", "ie", "ph"]
+
+    if (len(word) > 2):
+        for a in range(word(len) - 1):
+            if ((word[a] + word[a+1]) in eng_sounds):
+                count += 1
+
+    return count
         
 
 def features_list(word, index):
@@ -200,7 +221,7 @@ def features_list(word, index):
                's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
-    length = len(word)
+    # length = len(word)
     all_caps = is_all_caps(word)
     #capitalized = 0 # if capitalized + index > 0
 
@@ -261,17 +282,21 @@ def features_list(word, index):
     fil_sound_pair, fil_sound_trio = count_fil_sounds(word.lower())
     # specific_fil_sounds = 0 # ie. (ts, kw, diy[vowel], ngg)
     # fil_diphthongs = 0 # (iw, uy, ey, oy, ay, aw)
+    # done
 
+    specific_eng_letters = count_eng_letters(word.lower()) # c, f, j, q, v, x, z
+    specific_eng_sounds = count_eng_sounds(word.lower())
+    
     # prefix
     # suffix
-    # specific_eng_sounds = 0 # ie. (ch, qu, ie, ph)
 
-    return [length, all_caps, singular_letter, number, is_symbol,
+    return [all_caps, singular_letter, number, is_symbol,
             symbol_ratio, vowel_ratio,
             double_vowels, #double_a, double_e, double_i, double_o, double_u
             double_consonants, two_consonants, three_consonants,
             repeated_2_letter_syllables, repeated_3_letter_syllables,
-            unlapi, gitlapi, hulapi, fil_sound_pair, fil_sound_trio]
+            unlapi, gitlapi, hulapi, fil_sound_pair, fil_sound_trio,
+            specific_eng_letters, specific_eng_sounds]
 
 # Main tagging function
 def tag_language(tokens: List[str]) -> List[str]:
