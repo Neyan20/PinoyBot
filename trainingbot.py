@@ -183,6 +183,12 @@ def count_fil_sounds(word):
 
     return two_fil_counter, thr_fil_counter
 
+def is_common_fil_word(word):
+    lower_case = word.lower()
+    common_fil_words = ['ng', 'ang', 'nang', 'na', 'nga', 'mga', 'mag', 'sa', 'ni', 'pa']
+
+    return lower_case in common_fil_words  
+
 def count_eng_letters(word):
     eng_letters = ['c', 'f', 'j', 'q', 'v', 'x', 'z']
     count = 0
@@ -202,7 +208,6 @@ def count_eng_sounds(word):
                 count += 1
 
     return count
-        
 
 def features_list(word, index):
     vowels = ['a', 'e', 'i','o' ,'u']
