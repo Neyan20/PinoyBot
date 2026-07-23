@@ -52,31 +52,33 @@ def find_vowel_ratio(word):
     
     return (vowel_count/len(word))
 
-def has_double_vowels(word):
+def count_double_vowels(word):
     vowels = ['a', 'e', 'i','o' ,'u']
     cur_vowel = ' '
+    dw_count = 0
 
     for d in range(len(word) - 1):
         if word[d] in vowels:
             cur_vowel = word[d]
             if word[d+1] == cur_vowel:
-                return 1
+                dw_count += 1
     
-    return 0
+    return dw_count
 
-def has_double_consonants(word):
+def count_double_consonants(word):
     consonants = ['b', 'c', 'd', 'f', 'g', 'h',
                'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r',
                's', 't', 'v', 'w', 'x', 'y', 'z']
 
     cur_cons = ' '
+    dc_count = 0
 
     for e in range(len(word) - 1):
         if word[e] in consonants:
             cur_cons = word[e]
             if word[e+1] == cur_cons:
-                return 1
-    return 0
+                dc_count += 1
+    return dc_count
 
 def has_repeated_2_letter_syllables(word):
     pair = ' '
@@ -121,16 +123,20 @@ def features_list(word, index):
     # has_symbol = 0
 
     vowel_ratio = find_vowel_ratio(word)
-    double_vowels = has_double_vowels(word)
-    double_consonants = has_double_consonants(word)
+    double_vowels = count_double_vowels(word)
+    double_consonants = count_double_consonants(word)
+    # two_consonants = 0
+    # three_consonants = 0 #tch, thr, thy
 
     repeated_2_letter_syllables = has_repeated_2_letter_syllables(word) # ie. dadaan, baba, lalakad
     repeared_3_letter_syllables = has_repeated_3_letter_syllables(word) # ie. basbasan, pagpagin
-    # unlapi = 0 # ie. ma
-    # gitlapi = 0 # [consonant]um[vowel]
-    # hulapi = 0 # ie. an, in
+    # unlapi = 0 # ma, na
+    # gitlapi = 0 # [c]um[v], [c]in[v]
+    # hulapi = 0 # an, in
     # specific_fil_sounds = 0 # ie. (ts, kw, diy[vowel], ngg)
-    # specific_eng_sounds = 0 # ie. (ch, qu, ie)
+    # fil_diphthongs = 0 # (iw, uy, ey, oy, ay, aw)
+
+    # specific_eng_sounds = 0 # ie. (ch, qu, ie, ph)
 
     return [all_caps, singular_letter, number,
             vowel_ratio, double_vowels, double_consonants,
@@ -156,8 +162,10 @@ feature_matrix = []
 for w, word in enumerate(words):
     feature_matrix.append(features_list(word, w))
 
-#for fm in feature_matrix:
-#    print(fm)
+fw = 0
+for fm in feature_matrix:
+    print(words[fw], fm)
+    fw += 1
 
 # 70 15 15
 # X_train - selected feature rows, y_train - corresponding tags, X/y_vt - unselected
