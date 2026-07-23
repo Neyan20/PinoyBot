@@ -209,6 +209,18 @@ def count_eng_sounds(word):
 
     return count
 
+def eng_trigrams(word):
+    lower_case = word.lower()
+    eng_trigrams = ['tha', 'the', 'sth', 'for', 'nce', 'tio', 'ion', 'edt', 'oft']
+
+    return lower_case in eng_trigrams
+
+def eng_bigrams(word):
+    lower_case = word.lower()
+    eng_bigrams = ['th', 'ed', 'co', 'he']
+
+    return lower_case in eng_bigrams
+
 def features_list(word, index):
     vowels = ['a', 'e', 'i','o' ,'u']
     consonants = ['b', 'c', 'd', 'f', 'g', 'h',
