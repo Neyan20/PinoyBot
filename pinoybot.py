@@ -209,7 +209,22 @@ def count_eng_sounds(word):
                 count += 1
 
     return count
-        
+
+def has_eng_prefix(word):
+    prefixes_2l = ["en", "em", "in", "im", "re", "un"]
+    prefixes_3l = ["dis", "mid", "mis", "sub"]
+
+    if (((word[0] + word[1]) in prefixes_2l) or
+        ((word[0] + word[1] + word[2]) in prefixes_3l)):
+        return 1
+    return 0
+
+def has_eng_suffix(word):
+    suffixes_2l = ["ed", "er", "en", "ic", "ty"]
+
+    if ((word[len(word) - 1] + word[len(word) - 2]) in suffixes_2l):
+        return 1
+    return 0
 
 def features_list(word, index):
     vowels = ['a', 'e', 'i','o' ,'u']
@@ -287,8 +302,8 @@ def features_list(word, index):
     specific_eng_letters = count_eng_letters(word.lower()) # c, f, j, q, v, x, z
     specific_eng_sounds = count_eng_sounds(word.lower())
     
-    # prefix
-    # suffix
+    eng_prefix = has_eng_prefix(word.lower())
+    eng_suffix = has_eng_suffix(word.lower())
 
     return [all_caps, singular_letter, number, is_symbol,
             symbol_ratio, vowel_ratio,
@@ -296,7 +311,7 @@ def features_list(word, index):
             double_consonants, two_consonants, three_consonants,
             repeated_2_letter_syllables, repeated_3_letter_syllables,
             unlapi, gitlapi, hulapi, fil_sound_pair, fil_sound_trio,
-            specific_eng_letters, specific_eng_sounds]
+            specific_eng_letters, specific_eng_sounds, eng_prefix, eng_suffix]
 
 # Main tagging function
 def tag_language(tokens: List[str]) -> List[str]:
