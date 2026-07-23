@@ -34,7 +34,6 @@ def has_number(word, numbers):
             return 1
     return 0
 
-
 def find_vowel_ratio(word, vowels):
     vowel_count = 0
     
@@ -106,14 +105,35 @@ def has_repeated_3_letter_syllables(word):
             return 1
     return 0
 
-def has_unlapi(word):
+def may_unlapi(word):
+    unlapi_list = ["ma", "na", "um", "ka", "pa"]
+    if ((word[0] + word[1]) in unlapi_list):
+        return 1
     return 0
 
-def has_gitlapi(word):
+    # [c]um[v], [c]in[v]
+def may_gitlapi(word, consonants, vowels):
+    gitlapi_list = ["um", "in"]
+    for a10 in range(1, len(word) - 2):
+        if (((word[a10] + word[a10 + 1]) in gitlapi_list) and
+            (word[a10 - 1] in consonants) and (word[a10 + 2] in vowels)):
+            return 1
     return 0
 
-def has_hulapi(word):
+def may_hulapi(word):
+    hulapi_list = ["an", "in"]
+    if((word[len(word) - 2] + word[len(word) - 1]) in hulapi_list):
+        return 1
     return 0
+
+    # specific_fil_sounds = 0 # ie. (ts, kw, diy[vowel], ngg)
+def count_fil_sounds(word, vowel):
+    two_fil_sounds = ["ts", "kw"]
+    three_fil_sounds = ["diy", "ngg"]
+    fil_counter = 0
+
+
+
 
 def features_list(word, index):
     vowels = ['a', 'e', 'i','o' ,'u']
@@ -128,6 +148,7 @@ def features_list(word, index):
     all_caps = is_all_caps(word)
     #capitalized = 0 # if capitalized + index > 0
 
+    #update, number = 0 if the word is multi-digit (eg "100") which is incorrect
     if len(word) == 1:
         singular_letter = is_singular_letter(word, letters)
         number = is_number(word, numbers)
@@ -140,6 +161,7 @@ def features_list(word, index):
     # has_symbol = 0
 
     vowel_ratio = find_vowel_ratio(word, vowels)
+    # add double_a, double_e, double_i, double_o
     double_vowels = count_double_vowels(word, vowels)
     double_consonants = count_double_consonants(word, consonants)
     two_consonants = count_two_consonants(word, consonants)
@@ -153,6 +175,8 @@ def features_list(word, index):
     # specific_fil_sounds = 0 # ie. (ts, kw, diy[vowel], ngg)
     # fil_diphthongs = 0 # (iw, uy, ey, oy, ay, aw)
 
+    # prefix
+    # suffix
     # specific_eng_sounds = 0 # ie. (ch, qu, ie, ph)
 
     return [all_caps, singular_letter, number,
