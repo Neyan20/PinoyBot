@@ -55,6 +55,31 @@ def count_double_vowels(word, vowels):
     
     return dw_count
 
+def has_double_a(word):
+    lower_word = word.lower()
+
+    return "aa" in lower_word
+
+def has_double_e(word):
+    lower_word = word.lower()
+
+    return "ee" in lower_word
+
+def has_double_i(word):
+    lower_word = word.lower()
+
+    return "ii" in lower_word
+
+def has_double_o(word):
+    lower_word = word.lower()
+
+    return "oo" in lower_word
+
+def has_double_u(word):
+    lower_word = word.lower()
+
+    return "uu" in lower_word
+
 def count_double_consonants(word, consonants):
     cur_cons = ' '
     dc_count = 0
