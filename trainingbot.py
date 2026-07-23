@@ -197,7 +197,7 @@ def count_eng_sounds(word):
     eng_sounds = ["ch", "qu", "ie", "ph"]
 
     if (len(word) > 2):
-        for a in range(word(len) - 1):
+        for a in range(len(word) - 1):
             if ((word[a] + word[a+1]) in eng_sounds):
                 count += 1
 
