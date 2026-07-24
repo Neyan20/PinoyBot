@@ -6,6 +6,12 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.naive_bayes import MultinomialNB
 # from sklearn.naive_bayes import MultinomialNB
 
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import f1_score
+from sklearn.metrics import classification_report
+
 def is_all_caps(word):
     if (word.upper() == word):
         return 1
@@ -183,6 +189,7 @@ def count_fil_sounds(word):
 
     return two_fil_counter, thr_fil_counter
 
+#
 def is_common_fil_word(word):
     lower_case = word.lower()
     common_fil_words = ['ng', 'ang', 'nang', 'na', 'nga', 'mga', 'mag', 'sa', 'ni', 'pa']
@@ -200,7 +207,7 @@ def count_eng_letters(word):
 
 def count_eng_sounds(word):
     count = 0
-    eng_sounds = ["ch", "qu", "ie", "ph"]
+    eng_sounds = ["ch", "qu", "ie", "ph", "wh"]
 
     if (len(word) > 2):
         for a in range(len(word) - 1):
@@ -213,9 +220,14 @@ def has_eng_prefix(word):
     prefixes_2l = ["en", "em", "in", "im", "re", "un"]
     prefixes_3l = ["dis", "mid", "mis", "sub"]
 
-    if (((word[0] + word[1]) in prefixes_2l) or
-        ((word[0] + word[1] + word[2]) in prefixes_3l)):
-        return 1
+    if (len(word) > 2):
+        if (((word[0] + word[1]) in prefixes_2l)):
+            return 1
+
+    if (len(word) > 3):
+        if ((word[0] + word[1] + word[2]) in prefixes_3l):
+            return 1
+        
     return 0
 
 def has_eng_suffix(word):
@@ -366,6 +378,14 @@ y_pred = model.predict(X_valid) # test model
 
 print(y_pred) # predicted
 print(y_valid) # actual
+
+# report
+# print(accuracy_score(y_valid, y_pred, normalize=True))
+# print(precision_score(y_valid, y_pred, average='micro'))
+# print(recall_score(y_valid, y_pred, average='weighted'))
+# print(f1_score(y_valid, y_pred, average='weighted'))
+
+print(classification_report(y_valid, y_pred, zero_division=0, digits=4))
 
 # export model
 joblib.dump(model, "trainedbot")

@@ -190,6 +190,7 @@ def count_fil_sounds(word):
 
     return two_fil_counter, thr_fil_counter
 
+#
 def is_common_fil_word(word):
     lower_case = word.lower()
     common_fil_words = ['ng', 'ang', 'nang', 'na', 'nga', 'mga', 'mag', 'sa', 'ni', 'pa']
@@ -207,7 +208,7 @@ def count_eng_letters(word):
 
 def count_eng_sounds(word):
     count = 0
-    eng_sounds = ["ch", "qu", "ie", "ph"]
+    eng_sounds = ["ch", "qu", "ie", "ph", "wh"]
 
     if (len(word) > 2):
         for a in range(len(word) - 1):
@@ -220,9 +221,14 @@ def has_eng_prefix(word):
     prefixes_2l = ["en", "em", "in", "im", "re", "un"]
     prefixes_3l = ["dis", "mid", "mis", "sub"]
 
-    if (((word[0] + word[1]) in prefixes_2l) or
-        ((word[0] + word[1] + word[2]) in prefixes_3l)):
-        return 1
+    if (len(word) > 2):
+        if (((word[0] + word[1]) in prefixes_2l)):
+            return 1
+
+    if (len(word) > 3):
+        if ((word[0] + word[1] + word[2]) in prefixes_3l):
+            return 1
+        
     return 0
 
 def has_eng_suffix(word):
@@ -385,7 +391,7 @@ def tag_language(tokens: List[str]) -> List[str]:
 
 if __name__ == "__main__":
     # Example usage
-    example_tokens = ["Sa", "akin", "itong", "football", "ko", "why"]
+    example_tokens = ["Akala", "ko", "iced", "tea", "yun", "pala", "beer"]
     print("Tokens:", example_tokens)
     tags = tag_language(example_tokens)
     print("Tags:", tags)
