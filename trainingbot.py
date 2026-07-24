@@ -17,9 +17,10 @@ def is_all_caps(word):
         return 1
     return 0
 
-def is_capitalized_midway(word):
-    if(word[0].upper() == word[0]):
-        return 1
+def is_capitalized_midway(word, index):
+    if(index > 0):
+        if(word[0].upper() == word[0]):
+                return 1
     return 0
     
 def is_singular_letter(word, letters):
@@ -51,7 +52,6 @@ def find_symbol_ratio(word, letters, numbers):
             count += 1
 
     return (count/len(word))
-
 
 def find_vowel_ratio(word, vowels):
     if len(word) == 0:
@@ -275,9 +275,7 @@ def features_list(word, index):
 
     # length = len(word)
     all_caps = is_all_caps(word)
-    #capitalized = 0 # if capitalized + index > 0
 
-    #update, number = 0 if the word is multi-digit (eg "100") which is incorrect
     number = is_number(word, numbers)
     if len(word) == 1:
         singular_letter = is_singular_letter(word.lower(), letters)
@@ -291,9 +289,14 @@ def features_list(word, index):
         is_symbol = 0
     # is_symbol = 0
 
+    if ((number == 0) and (is_symbol == 0)):
+        all_caps = is_all_caps(word)
+    else:
+        all_caps = 0
+    capitalized = is_capitalized_midway(word, index) # if capitalized + index > 0   
+
     # has_number = has_number(word)
     symbol_ratio = find_symbol_ratio(word, letters, numbers)
-
     vowel_ratio = find_vowel_ratio(word.lower(), vowels)
 
     if(len(word) >= 2):
@@ -342,7 +345,7 @@ def features_list(word, index):
     eng_prefix = has_eng_prefix(word.lower())
     eng_suffix = has_eng_suffix(word.lower())
 
-    return [all_caps, singular_letter, number, is_symbol,
+    return [all_caps, singular_letter, number, is_symbol, capitalized, 
             symbol_ratio, vowel_ratio,
             double_a, double_e, double_i, double_o, double_u,
             double_consonants, two_consonants, three_consonants,
@@ -351,6 +354,8 @@ def features_list(word, index):
             specific_eng_letters, specific_eng_sounds, eng_prefix, eng_suffix]
 
 # read file
+word_id = []
+sentence_id = []
 sentence = []
 words = []
 tags = []
@@ -361,19 +366,29 @@ with open("dataset.csv", "r") as f:
     next(data)
     for row in data:
         # print(row)
+        word_id.append(row[0])
+        sentence_id.append(row[1])
         words.append(row[3])
         tags.append(row[4])
 
 # feature matrix
 feature_matrix = []
 
+idx = 0
 for w, word in enumerate(words):
-    feature_matrix.append(features_list(word, w))
+    if (w != 0):
+        # check if current and prev word belongs to the same sentence
+        if (sentence_id[w] == sentence_id[w-1]):
+            idx += 1
+        else:
+            idx = 0
+
+    feature_matrix.append(features_list(word, idx))
 
 fw = 0
-for fm in feature_matrix:
-    print(words[fw], fm)
-    fw += 1
+#for fm in feature_matrix:
+#    print(words[fw], fm)
+#    fw += 1
 
 # 70 15 15
 # X_train - selected feature rows, y_train - corresponding tags, X/y_vt - unselected

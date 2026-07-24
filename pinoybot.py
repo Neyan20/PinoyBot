@@ -18,9 +18,10 @@ def is_all_caps(word):
         return 1
     return 0
 
-def is_capitalized_midway(word):
-    if(word[0].upper() == word[0]):
-        return 1
+def is_capitalized_midway(word, index):
+    if(index > 0):
+        if(word[0].upper() == word[0]):
+                return 1
     return 0
     
 def is_singular_letter(word, letters):
@@ -45,7 +46,6 @@ def has_number(word, numbers):
 def find_symbol_ratio(word, letters, numbers):
     if len(word) == 0:
         return 0
-
     count = 0
 
     for a in word:
@@ -53,7 +53,6 @@ def find_symbol_ratio(word, letters, numbers):
             count += 1
 
     return (count/len(word))
-
 
 def find_vowel_ratio(word, vowels):
     if len(word) == 0:
@@ -277,9 +276,7 @@ def features_list(word, index):
 
     # length = len(word)
     all_caps = is_all_caps(word)
-    #capitalized = 0 # if capitalized + index > 0
 
-    #update, number = 0 if the word is multi-digit (eg "100") which is incorrect
     number = is_number(word, numbers)
     if len(word) == 1:
         singular_letter = is_singular_letter(word.lower(), letters)
@@ -293,9 +290,14 @@ def features_list(word, index):
         is_symbol = 0
     # is_symbol = 0
 
+    if ((number == 0) and (is_symbol == 0)):
+        all_caps = is_all_caps(word)
+    else:
+        all_caps = 0
+    capitalized = is_capitalized_midway(word, index) # if capitalized + index > 0   
+
     # has_number = has_number(word)
     symbol_ratio = find_symbol_ratio(word, letters, numbers)
-
     vowel_ratio = find_vowel_ratio(word.lower(), vowels)
 
     if(len(word) >= 2):
@@ -344,7 +346,7 @@ def features_list(word, index):
     eng_prefix = has_eng_prefix(word.lower())
     eng_suffix = has_eng_suffix(word.lower())
 
-    return [all_caps, singular_letter, number, is_symbol,
+    return [all_caps, singular_letter, number, is_symbol, capitalized, 
             symbol_ratio, vowel_ratio,
             double_a, double_e, double_i, double_o, double_u,
             double_consonants, two_consonants, three_consonants,
@@ -404,7 +406,14 @@ def tag_language(tokens: List[str]) -> List[str]:
 
 if __name__ == "__main__":
     # Example usage
-    example_tokens = ["Akala", "ko", "iced", "tea", "yun", "pala", "beer"]
+    example_tokens = ["Akala", "ko", "iced", "tea", "yun", "pala", "beer", ",",
+                      "Akala", "ko", "reverse", "yun", "pala", "second", "gear", "."]
+    # ["Mahalaga", "ka", "parin", ",", "sobra", ".",
+    # "Pero", "feeling", "ko", "hindi", "na", "enough", "yung", "memories", "lang", "...",
+    # "kahit", "pagpilitan", "ko", "'to", ".",
+    # "Hindi", "yun", "fair", "sayo", ",", "di", "rin", "sakin", ".",
+    # "But", "do", "I", "still", "love", "you", "?",
+    # "I", "think", "I", "do", "."]
     print("Tokens:", example_tokens)
     tags = tag_language(example_tokens)
     print("Tags:", tags)
