@@ -43,6 +43,9 @@ def has_number(word, numbers):
     return 0
 
 def find_symbol_ratio(word, letters, numbers):
+    if len(word) == 0:
+        return 0
+
     count = 0
 
     for a in word:
@@ -53,6 +56,8 @@ def find_symbol_ratio(word, letters, numbers):
 
 
 def find_vowel_ratio(word, vowels):
+    if len(word) == 0:
+        return 0
     vowel_count = 0
     
     for a in word:
