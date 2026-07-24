@@ -184,7 +184,8 @@ def may_hulapi(word):
     # specific_fil_sounds = 0 # ie. (ts, kw, diy[vowel], ngg)
 def count_fil_sounds(word):
     two_fil_sounds = ["ts", "kw", "ks",
-                      "iw", "uy", "ey", "oy", "ay", "aw"]
+                      "iw", "uy", "ey", "oy", "ay", "aw"
+                      "ng", "sa", "na", "ma", "ka", "la", "pa", "at", "ga", "ag"]
     three_fil_sounds = ["diy", "ngg",
                         "ala", "san", "isa", "ito", "ama", "ila", "pag", "ara", "ata", "kan", "ali"]
     two_fil_counter = 0
@@ -222,8 +223,9 @@ def count_eng_letters(word):
 def count_eng_sounds(word):
     count = 0
     eng_sounds = ["ch", "qu", "ie", "ph", "wh",
-                  "th", "ed", "co", "he"] #merged eng_bigrams
+                  "th", "ed", "co", "he", "er", "es", "st", "en", "nd", "ea"]   #merged eng_bigrams
     eng_trigrams = ['tha', 'the', 'sth', 'for', 'nce', 'tio', 'ion', 'edt', 'oft'] #merged eng_trigrams
+    # "the", "and", "ing", "ent", "ion", "her", "for", "tha", "nth", "int"
 
     if (len(word) > 2):
         for a in range(len(word) - 1):
