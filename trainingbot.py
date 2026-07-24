@@ -60,38 +60,50 @@ def find_vowel_ratio(word, vowels):
     
     return (vowel_count/len(word))
 
+# merged has_double_[vowels]
 def count_double_vowels(word, vowels):
     cur_vowel = ' '
-    dw_count = 0
+    aa = ee = ii = oo = uu = 0
 
     for a in range(len(word) - 1):
-        if word[a] in vowels:
-            cur_vowel = word[a]
-            if word[a+1] == cur_vowel:
-                dw_count += 1
-    
-    return dw_count
+        if ((word[a] + word[a+1]) == "aa"):
+            aa += 1
+        elif ((word[a] + word[a+1]) == "ee"):
+            ee += 1
+        elif ((word[a] + word[a+1]) == "ii"):
+            ii += 1
+        elif ((word[a] + word[a+1]) == "oo"):
+            oo += 1
+        elif ((word[a] + word[a+1]) == "uu"):
+            uu += 1
+        
+    return aa, ee, ii, oo, uu
 
+#
 def has_double_a(word):
     lower_word = word.lower()
 
     return "aa" in lower_word
 
+#
 def has_double_e(word):
     lower_word = word.lower()
 
     return "ee" in lower_word
 
+#
 def has_double_i(word):
     lower_word = word.lower()
 
     return "ii" in lower_word
 
+#
 def has_double_o(word):
     lower_word = word.lower()
 
     return "oo" in lower_word
 
+#
 def has_double_u(word):
     lower_word = word.lower()
 
@@ -189,12 +201,13 @@ def count_fil_sounds(word):
 
     return two_fil_counter, thr_fil_counter
 
-#
 def is_common_fil_word(word):
     lower_case = word.lower()
     common_fil_words = ['ng', 'ang', 'nang', 'na', 'nga', 'mga', 'mag', 'sa', 'ni', 'pa']
 
-    return lower_case in common_fil_words  
+    if lower_case in common_fil_words:
+        return 1
+    return 0
 
 def count_eng_letters(word):
     eng_letters = ['c', 'f', 'j', 'q', 'v', 'x', 'z']
@@ -207,11 +220,18 @@ def count_eng_letters(word):
 
 def count_eng_sounds(word):
     count = 0
-    eng_sounds = ["ch", "qu", "ie", "ph", "wh"]
+    eng_sounds = ["ch", "qu", "ie", "ph", "wh",
+                  "th", "ed", "co", "he"] #merged eng_bigrams
+    eng_trigrams = ['tha', 'the', 'sth', 'for', 'nce', 'tio', 'ion', 'edt', 'oft'] #merged eng_trigrams
 
     if (len(word) > 2):
         for a in range(len(word) - 1):
             if ((word[a] + word[a+1]) in eng_sounds):
+                count += 1
+
+    if (len(word) > 3):
+        for b in range(len(word) - 2):
+            if ((word[b] + word[b+1] + word[b+2]) in eng_trigrams):
                 count += 1
 
     return count
@@ -236,20 +256,6 @@ def has_eng_suffix(word):
     if ((word[len(word) - 1] + word[len(word) - 2]) in suffixes_2l):
         return 1
     return 0
-
-#
-def eng_trigrams(word):
-    lower_case = word.lower()
-    eng_trigrams = ['tha', 'the', 'sth', 'for', 'nce', 'tio', 'ion', 'edt', 'oft']
-
-    return lower_case in eng_trigrams
-
-#
-def eng_bigrams(word):
-    lower_case = word.lower()
-    eng_bigrams = ['th', 'ed', 'co', 'he']
-
-    return lower_case in eng_bigrams
 
 def features_list(word, index):
     vowels = ['a', 'e', 'i','o' ,'u']
@@ -284,13 +290,13 @@ def features_list(word, index):
 
     vowel_ratio = find_vowel_ratio(word.lower(), vowels)
 
-    # add double_a, double_e, double_i, double_o
     if(len(word) >= 2):
-        double_vowels = count_double_vowels(word.lower(), vowels)
+        double_a, double_e, double_i, double_o, double_u = count_double_vowels(word.lower(), vowels)
         double_consonants = count_double_consonants(word.lower(), consonants)
         two_consonants = count_two_consonants(word.lower(), consonants)
     else:
-        double_vowels = double_consonants = two_consonants = 0
+        double_a = double_e = double_i = double_o = double_u = 0
+        double_consonants = two_consonants = 0
 
     if(len(word) >= 3):
         three_consonants = count_three_consonants(word.lower(), consonants) #tch, thr, rst
@@ -332,7 +338,7 @@ def features_list(word, index):
 
     return [all_caps, singular_letter, number, is_symbol,
             symbol_ratio, vowel_ratio,
-            double_vowels, #double_a, double_e, double_i, double_o, double_u
+            double_a, double_e, double_i, double_o, double_u,
             double_consonants, two_consonants, three_consonants,
             repeated_2_letter_syllables, repeated_3_letter_syllables,
             unlapi, gitlapi, hulapi, fil_sound_pair, fil_sound_trio,
